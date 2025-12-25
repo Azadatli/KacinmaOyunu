@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://cvfqod2yhj70b"]
+
+[ext_resource type="Script" uid="uid://iua88n6v1kgt" path="res://scripts/main.gd" id="1_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://fcaxwvcplxrb" path="res://scenes/Ball.tscn" id="2_tefeu"]
+[ext_resource type="Script" uid="uid://qdovuuaf0h8q" path="res://scripts/player.gd" id="3_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://dp7pjo3ldho51" path="res://assets/Player/Player.png" id="4_tipki"]
+[ext_resource type="Texture2D" uid="uid://ddkmc7y6i0nvg" path="res://assets/Background/Background.jpg" id="5_85g3d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1bvp3"]
+size = Vector2(23.366665, 26.300001)
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_tbgi4")
+ball_scene = ExtResource("2_tefeu")
+
+[node name="player" type="CharacterBody2D" parent="."]
+scale = Vector2(5, 5)
+script = ExtResource("3_o6xl0")
+
+[node name="Sprite2D" type="Sprite2D" parent="player"]
+z_as_relative = false
+position = Vector2(117.4, 110.4)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_tipki")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
+position = Vector2(117, 111.600006)
+scale = Vector2(0.49999997, 0.49999997)
+shape = SubResource("RectangleShape2D_1bvp3")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(577.5, 323.00006)
+scale = Vector2(0.6015625, 0.60185194)
+texture = ExtResource("5_85g3d")
+metadata/_edit_lock_ = true
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="ScoreLabel" type="Label" parent="HUD"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Skor:0"
+
+[node name="GameOverLabel" type="Label" parent="HUD"]
+visible = false
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "GAME OVER - Yeniden başlamak için Enter tuşuna bas"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
